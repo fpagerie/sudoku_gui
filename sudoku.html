@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+</head>
+<body>
+	<nav class="navbar navbar-dark bg-dark static-top" style="background-color:rgb(30,69,98)">
+		<span class="navbar-brand ml-3">Sudoku</span> 
+		<span class="navbar-brand mb-0 h3 ml-auto" id="clock"></span> 
+		<span class="navbar-text ml-auto" for="initValue">Set Initial Values : </span>
+		<input class="navbar-brand" type="checkbox" id="initValue" checked=true onclick="launchTimer()">
+	</nav>
+	<div style="padding-top: 30px; padding-left:0%; padding-right:0%">
+		<div class=row>
+			<div class="col-md-7">
+				<div class="ml-auto" id="sudoku_table" style="border:4px solid; width:503px; height:503px">
+					<style type="text/css">
+						.cellule{border-right:1px solid;border-bottom:1px solid; height:55px; width:55px; font-family: Verdana;}
+						.cellule_border_r{border-right:3px solid;}
+						.values:focus{outline:none}
+						.highlighted{background-color: rgba(255, 215, 0, .5)}
+						.ligne{display:flex;align-items:stretch; height:55px}
+						.ligne_border{border-bottom:3px solid}
+						.initialValue{text-align:center; font-size: xx-large}
+						.mainValue{text-align:center; font-size: xx-large; color:rgb(49,140,231)}
+						.centerValue{text-align:center; top:32%; position:absolute; color:rgb(49,140,231); width:100%; font-size:12px}
+						.values{position:relative; display:block; top:0%; left:0%; width:55px; height:55px; user-select: none;}
+						.cornerValue{position:absolute; color:rgb(49,140,231); font-size:12px}
+						.cornerValue_0{left:5%; top:0%}
+						.cornerValue_1{left:80%; top:0%}
+						.cornerValue_2{left:5%; top:65%}
+						.cornerValue_3{left:80%; top:65%}
+						.cornerValue_4{left:42%; top:0%}
+						.cornerValue_5{left:42%; top:65%}
+						.cornerValue_6{left:5%; top:32%}
+						.cornerValue_7{left:80%; top:32%}
+						.cornerValue_8{left:5%; top:0%}
+						.width100{width:100%}
+						.blcolor{color:rgb(49,140,231)}
+					</style>
+					<div class="ligne" id="ligne_1">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne" id="ligne_2">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne ligne_border" id="ligne_3">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					
+					<div class="ligne" id="ligne_4">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne" id="ligne_5">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne ligne_border" id="ligne_6">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					
+					<div class="ligne" id="ligne_7">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne" id="ligne_8">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+					<div class="ligne" id="ligne_9">
+						<div class="cellule cell_1" id="cell_1"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_2" id="cell_2"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_3" id="cell_3"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_4" id="cell_4"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_5" id="cell_5"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cellule_border_r cell_6" id="cell_6"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_7" id="cell_7"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_8" id="cell_8"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+						<div class="cellule cell_9" id="cell_9"><div tabindex=-1; class="values" onmouseover="setHighlighted(event, this)" onfocus="setHighlighted1(event, this)"></div></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-md-5">
+				<div style="padding:25px; width:370px">
+					<select class="custom-select" id="selectMode" size="4" onchange="modeSelectionColor(this.value)">
+						<option value="1" selected>Normal</option>
+						<option value="2">Corner</option>
+						<option value="3">Center</option>
+						<option value="4">Color</option>
+					</select>
+				</div>
+				<div style="padding:25px; width:370px" id="numbers_table">
+					<div  id="selectModeColor1">
+						<table class="table table-bordered" style="width:100%; table-layout:fixed;">
+							<tr>
+								<td style="padding:0px"><button value=1 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">1</button></td>
+								<td style="padding:0px"><button value=2 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">2</button></td>
+								<td style="padding:0px"><button value=3 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">3</button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=4 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">4</button></td>
+								<td style="padding:0px"><button value=5 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">5</button></td>
+								<td style="padding:0px"><button value=6 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">6</button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=7 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">7</button></td>
+								<td style="padding:0px"><button value=8 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">8</button></td>
+								<td style="padding:0px"><button value=9 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)">9</button></td>
+							</tr>
+						</table>
+					</div>
+					<div  id="selectModeColor2" style="display:none">
+						<table class="table table-bordered width100" style="table-layout:fixed;">
+							<tr>
+								<td style="padding:0px"><button value=1 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>1</sup></button></td>
+								<td style="padding:0px"><button value=2 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>2</sup></button></td>
+								<td style="padding:0px"><button value=3 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>3</sup></button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=4 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>4</sup></button></td>
+								<td style="padding:0px"><button value=5 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>5</sup></button></td>
+								<td style="padding:0px"><button value=6 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>6</sup></button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=7 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>7</sup></button></td>
+								<td style="padding:0px"><button value=8 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>8</sup></button></td>
+								<td style="padding:0px"><button value=9 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><sup>9</sup></button></td>
+							</tr>
+						</table>
+					</div>
+					<div  id="selectModeColor3" style="display:none">
+						<table class="table table-bordered width100" style="table-layout:fixed;">
+							<tr>
+								<td style="padding:0px"><button value=1 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>1</small></button></td>
+								<td style="padding:0px"><button value=2 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>2</small></button></td>
+								<td style="padding:0px"><button value=3 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>3</small></button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=4 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>4</small></button></td>
+								<td style="padding:0px"><button value=5 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>5</small></button></td>
+								<td style="padding:0px"><button value=6 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>6</small></button></td>
+							</tr>                              
+							<tr>                               
+								<td style="padding:0px"><button value=7 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>7</small></button></td>
+								<td style="padding:0px"><button value=8 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>8</small></button></td>
+								<td style="padding:0px"><button value=9 type="button" class="btn width100 blcolor" onclick="setBtnValue(this)"><small>9</small></button></td>
+							</tr>
+						</table>
+					</div>
+					<div  id="selectModeColor4" style="display:none">
+						<table class="table table-borderless width100" style="table-layout:fixed;">
+							<tr>
+								<td style="padding:0px"><button value=1 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#000000aa">1-black</button></td>
+								<td style="padding:0px"><button value=2 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#c0c0c0aa">2-grey</button></td>
+								<td style="padding:0px"><button value=3 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#ffffff11">3-white</button></td>
+							</tr>
+							<tr>
+								<td style="padding:0px"><button value=4 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#adff2faa">4-green</button></td>
+								<td style="padding:0px"><button value=5 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#800080aa">5-purple</button></td>
+								<td style="padding:0px"><button value=6 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#ffa500aa">6-orange</button></td>
+							</tr>
+							<tr>
+								<td style="padding:0px"><button value=7 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#ff0000aa">7-red</button></td>
+								<td style="padding:0px"><button value=8 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#ffff00aa">8-yellow</button></td>
+								<td style="padding:0px"><button value=9 type="button" class="btn width100" onclick="setBtnValue(this)" style="background-color:#00ffffaa">9-lightblue</button></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div style="padding:25px;">
+					<div class="btn-group" role="group" style="padding-bottom:5px">
+						<button type="button" class="btn btn-secondary" onclick="undoAction()">Undo</button>
+						<button type="button" class="btn btn-secondary" onclick="redoAction()">Redo</button>
+					</div>
+					<br>
+					<button type="button" class="btn btn-secondary" onclick="checkSolution()">Check solution</button>
+					<p id="checkSol"></p>
+				</div>
+				<div style="padding:25px;">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	var back_colors = ["#000000aa", "#c0c0c0aa", "#ffffff11", "#adff2faa", "#800080aa", "#ffa500aa","#ff0000aa", "#ffff00aa", "#00ffffaa"]
+	var undo_actions = []
+	var num_last_action = 0
+	
+	//////////////////////////////////////  Function to set a value to a cell  //////////////////////////////////////
+	function setValue(cell, value, place) {
+		if (place == 1){
+			for (var i = 0; i < cell.children.length; i++) {
+				if (cell.children[i].classList.contains("centerValue")){
+					cell.children[i].style.display = "none"
+				}
+				else if (cell.children[i].classList.contains("cornerValue")){
+					cell.children[i].style.display = "none"
+				}
+			}
+			var numberNode = document.createElement("div");
+			numberNode.innerHTML = value
+			numberNode.classList.add("mainValue");
+			cell.appendChild(numberNode);
+		}
+		if (place == 2){
+			var cornerVal = []
+			var toDel = []
+			for (var i = 0; i < cell.children.length; i++) {
+				if (cell.children[i].classList.contains("cornerValue")){
+					cornerVal.push(cell.children[i].innerHTML)
+					toDel.push(cell.children[i])
+				}
+			}
+			for (var i = 0; i < toDel.length; i++) {
+				cell.removeChild(toDel[i]);
+			}
+			
+			//put value
+			if (cornerVal.includes(value)){
+				var index = cornerVal.indexOf(value);
+				cornerVal.splice(index, 1);
+			}
+			else {
+				cornerVal.push(value)
+				cornerVal.sort();
+			}
+			if (cornerVal.length > 0) {
+				for (var i = 0; i < cornerVal.length; i++) {
+					var numberNode = document.createElement("span");
+					numberNode.innerHTML = cornerVal[i]
+					numberNode.classList.add("cornerValue");
+					numberNode.classList.add("cornerValue_" + i);
+					cell.appendChild(numberNode);
+				}
+			}
+		}
+		if (place == 3){
+			var centerVal = ''
+			for (var i = 0; i < cell.children.length; i++) {
+				if (cell.children[i].classList.contains("centerValue")){
+					centerVal = cell.children[i].innerHTML;
+					cell.removeChild(cell.children[i]);
+				}
+			}
+		
+			var numberNode = document.createElement("div");
+			centerVal = centerVal.split("")
+			if (centerVal.includes(value)){
+				var index = centerVal.indexOf(value);
+				centerVal.splice(index, 1);
+				centerVal = centerVal.join('')
+			}
+			else {
+				centerVal.push(value)
+				centerVal.sort();
+				centerVal = centerVal.join('')
+			}
+			numberNode.innerHTML = centerVal
+			numberNode.classList.add("centerValue");
+			cell.appendChild(numberNode);
+		}
+		if (place == 4){
+			cell.parentNode.style.backgroundColor = back_colors[parseInt(value) - 1]
+		}
+	}
+	
+	
+	function assignValue(elemCourant, key) {
+		//Set initial values
+		if (document.getElementById("initValue").checked){
+			//remove center and main value if present
+			for (var i = 0; i < elemCourant.children.length; i++) {
+				if (elemCourant.children[i].classList.contains("initialValue")){
+					elemCourant.removeChild(elemCourant.children[i]);
+				}
+			}
+			//put new value
+			var numberNode = document.createElement("div");
+			numberNode.innerHTML = key
+			numberNode.classList.add("initialValue");
+			elemCourant.appendChild(numberNode);
+		}
+		else {
+			//check if initial value
+			var initVal = false
+			for (var i = 0; i < elemCourant.children.length; i++) {
+				if (elemCourant.children[i].classList.contains("initialValue")){
+					initVal = true;
+				}
+			}
+			if (initVal == false) {
+				if (document.getElementById("selectMode").value == 1){
+					//remove center and main value if present
+					var toDel = []
+					for (var i = 0; i < elemCourant.children.length; i++) {
+						if (elemCourant.children[i].classList.contains("mainValue")){
+							toDel.push(elemCourant.children[i])
+						}
+					}
+					for (var i = 0; i < toDel.length; i++) {
+						elemCourant.removeChild(toDel[i]);
+					}
+					//put new value
+					setValue(elemCourant, key, document.getElementById("selectMode").value)
+				}
+				else if ((document.getElementById("selectMode").value == 2) || (document.getElementById("selectMode").value == 3)){
+					//check if main and corner value
+					var mainVal = false
+					for (var i = 0; i < elemCourant.children.length; i++) {
+						if (elemCourant.children[i].classList.contains("mainValue")){
+							mainVal = true;
+						}
+					}
+					
+					//put value if no main value
+					if (mainVal == false) {
+						setValue(elemCourant, key, document.getElementById("selectMode").value)
+					}
+				}
+			}
+			if (document.getElementById("selectMode").value == 4){
+				setValue(elemCourant, key, document.getElementById("selectMode").value)
+			}
+		}
+	}
+	
+	//////////////////////////////////////  Function to delete a value from a cell  //////////////////////////////////////
+	function deleteValue(elemCourant, value, all_corner) {
+		if (document.getElementById("initValue").checked) {
+			for (var i = 0; i < elemCourant.children.length; i++) {
+				if (elemCourant.children[i].classList.contains("initialValue")){
+					elemCourant.removeChild(elemCourant.children[i]);
+				}
+			}
+		}
+		else {
+			if (value == 1){
+				for (var i = 0; i < elemCourant.children.length; i++) {
+					if (elemCourant.children[i].classList.contains("mainValue")){
+						elemCourant.removeChild(elemCourant.children[i]);
+					}
+					else if (elemCourant.children[i].classList.contains("centerValue")){
+						elemCourant.children[i].style.display = ""
+					}
+					else if (elemCourant.children[i].classList.contains("cornerValue")){
+						elemCourant.children[i].style.display = ""
+					}
+				}
+			}
+			else if (value == 2){
+				var toDel = []
+				for (var i = 0; i < elemCourant.children.length; i++) {
+					if (elemCourant.children[i].classList.contains("cornerValue")){
+						if (all_corner === true) {
+							toDel.push(elemCourant.children[i])
+						}
+						else {
+							if (elemCourant.children[i].innerHTML == all_corner) {
+								toDel.push(elemCourant.children[i])
+							}
+						}
+					}
+				}
+				for (var i = 0; i < toDel.length; i++) {
+					elemCourant.removeChild(toDel[i]);
+				}
+			}
+			else if (value == 3){
+				for (var i = 0; i < elemCourant.children.length; i++) {
+					if (elemCourant.children[i].classList.contains("centerValue")){
+						elemCourant.removeChild(elemCourant.children[i]);
+					}
+				}
+			}
+		}
+	}
+	
+	//////////////////////////////////////  Function to set a value from the buttons  //////////////////////////////////////
+	function setBtnValue(btn){
+		console.log('number from button')
+		var highlighted_list = []
+		Array.from(document.getElementsByClassName("highlighted")).forEach(
+			function(subcell) {
+				if (subcell.classList.contains('values')) {
+					assignValue(subcell, parseInt(btn.value))
+					highlighted_list.push(subcell)
+				}
+			}
+		);
+		if (highlighted_list.length > 0){
+			saveToUndo(highlighted_list, {key:btn.value})
+		}
+	}
+	
+	//////////////////////////////////////  Function to save every action to undo  //////////////////////////////////////
+	function saveToUndo(highlighted_list, e) {
+		if (!document.getElementById("initValue").checked) {
+			if (document.getElementById("selectMode").value != 4) {
+				var dict = {};
+				dict.cells = [];
+				dict.event = ""; //put ou del
+				dict.val = 0 //value to put
+				dict.place = 0 // main/center/corner/color
+				
+				var cell_numbers = []
+				for (var i = 0; i < highlighted_list.length; i++) {
+					var cell = highlighted_list[i]
+					cell_numbers.push([cell.parentNode.parentNode.id, cell.parentNode.id])
+				}
+				dict.cells = cell_numbers
+				
+				if (e == 'del') {dict.event = e}
+				else {dict.event = "put"}
+				
+				if (e == 'del') {
+					var all_values = []
+					for (var j = 0; j < highlighted_list.length; j++) {
+						var elemCourant = highlighted_list[j]
+						var elem_values = []
+						for (var i = 0; i < elemCourant.children.length; i++) {
+							if (document.getElementById("selectMode").value == 1) {
+								if (elemCourant.children[i].classList.contains("mainValue")){
+									elem_values = elemCourant.children[i].innerHTML
+								}
+							}
+							if (document.getElementById("selectMode").value == 2) {
+								if (elemCourant.children[i].classList.contains("cornerValue")){
+									elem_values.push(elemCourant.children[i].innerHTML)
+								}
+							}
+							if (document.getElementById("selectMode").value == 3) {
+								if (elemCourant.children[i].classList.contains("centerValue")){
+									elem_values = elemCourant.children[i].innerHTML
+								}
+							}
+						}
+						all_values.push(elem_values)
+					}
+					dict.val = all_values
+				}
+				else {
+					dict.val = e.key
+				}
+				
+				dict.place = document.getElementById("selectMode").value
+				
+				if (num_last_action != undo_actions.length - 1) {
+					undo_actions.length = num_last_action + 1
+				}
+				undo_actions.push(dict)
+				num_last_action = undo_actions.length - 1
+			}
+		}
+		console.log(undo_actions)
+	}
+	
+	//////////////////////////////////////  Function to undo/redo actions based on saved ones  //////////////////////////////////////
+	function undoAction() {
+		var last_action = undo_actions[num_last_action]
+		console.log(last_action)
+		if (last_action.event == "put") {
+			for (var i = 0; i < last_action.cells.length; i++) {
+				var line = document.getElementById(last_action.cells[i][0])
+				var cell = line.getElementsByClassName(last_action.cells[i][1])[0]
+				if (last_action.place == 1) {
+					deleteValue(cell.children[0], last_action.place, last_action.val)
+				}
+				else {
+					setValue(cell.children[0], last_action.val, last_action.place)
+				}
+			}
+			num_last_action = num_last_action - 1
+		}
+		else {
+			for (var i = 0; i < last_action.cells.length; i++) {
+				var line = document.getElementById(last_action.cells[i][0])
+				var cell = line.getElementsByClassName(last_action.cells[i][1])[0]
+				for (var j = 0; j < last_action.val[i].length; j++) {
+					setValue(cell.children[0], last_action.val[i][j], last_action.place)
+				}
+			}
+			num_last_action = num_last_action - 1
+		}
+	}
+	
+	function redoAction() {
+		var next_action = undo_actions[num_last_action + 1]
+		if (next_action.event == "put") {
+			for (var i = 0; i < next_action.cells.length; i++) {
+				var line = document.getElementById(next_action.cells[i][0])
+				var cell = line.getElementsByClassName(next_action.cells[i][1])[0]
+				setValue(cell.children[0], next_action.val, next_action.place)
+			}
+			num_last_action = num_last_action + 1
+		}
+		else {
+			for (var i = 0; i < next_action.cells.length; i++) {
+				var line = document.getElementById(next_action.cells[i][0])
+				var cell = line.getElementsByClassName(next_action.cells[i][1])[0]
+				for (var j = 0; j < next_action.val[i].length; j++) {
+					deleteValue(cell.children[0], next_action.place, next_action.val[i][j])
+				}
+			}
+			num_last_action = num_last_action + 1
+		}
+	}
+	
+
+
+	//////////////////////////////////////  Function to catch which key is pressed and act accordingly  //////////////////////////////////////
+	function keyfunction(e){
+		if (Array.from(new Array(9), (x, i) => i + 97).includes(e.keyCode)) {
+			console.log('number')
+			var highlighted_list = []
+			Array.from(document.getElementsByClassName("highlighted")).forEach(
+				function(subcell) {
+					if (subcell.classList.contains('values')) {
+						assignValue(subcell, e.key)
+						highlighted_list.push(subcell)
+					}
+				}
+			);
+			if (highlighted_list.length > 0){
+				saveToUndo(highlighted_list, e)
+			}
+		}
+		if (e.keyCode == 32) {
+			console.log('space')
+			var elemCourant = document.getElementById("selectMode");
+			var newValue = parseInt(elemCourant.value) + 1
+			if (newValue == 5){newValue = 1}
+			elemCourant.value = newValue
+			modeSelectionColor(newValue)
+		}
+		if ((e.keyCode == 8) || (e.keyCode == 46)) {
+			console.log('del')
+			var highlighted_list = []
+			Array.from(document.getElementsByClassName("highlighted")).forEach(
+				function(subcell) {
+					if (subcell.classList.contains('values')) {
+						highlighted_list.push(subcell)
+					}
+				}
+			);
+			if (highlighted_list.length > 0){
+				saveToUndo(highlighted_list, 'del')
+			}
+			for (var i = 0; i < highlighted_list.length; i++) {
+				deleteValue(highlighted_list[i], document.getElementById("selectMode").value, true)
+			}
+		}
+		if (Array.from(new Array(4), (x, i) => i + 37).includes(e.keyCode)) {
+			console.log('arrow')
+			//Get cell
+			var elemCourant = document.activeElement
+			var cellnum = elemCourant.parentNode.id
+			cellnum = cellnum.slice(cellnum.length - 1)
+			var linenum = elemCourant.parentNode.parentNode.id
+			linenum = linenum.slice(linenum.length - 1)
+			//Change cell number
+			if (e.keyCode == 37) {cellnum = parseInt(cellnum) - 1}
+			else if (e.keyCode == 38) {linenum = parseInt(linenum) - 1}
+			else if (e.keyCode == 39) {cellnum = parseInt(cellnum) + 1}
+			else if (e.keyCode == 40) {linenum = parseInt(linenum) + 1}
+			if (linenum < 1) {linenum = 9}
+			else if (linenum > 9) {linenum = 1}
+			if (cellnum < 1) {cellnum = 9}
+			else if (cellnum > 9) {cellnum = 1}
+			//Focus on new cell
+			var newline = document.getElementById("ligne_" + linenum)
+			var newcell = newline.getElementsByClassName("cell_" + cellnum)[0]
+			unhighlight('', false, true)
+			newcell.children[0].focus()
+		}
+		console.log(undo_actions)
+	}
+	document.body.addEventListener('keyup',function(e) { keyfunction(e) },false);
+	
+	//////////////////////////////////////  Show list of color when necessary  //////////////////////////////////////
+	function modeSelectionColor(val){
+		if (val == 1) {
+			document.getElementById("selectModeColor1").style.display = "block"
+			document.getElementById("selectModeColor2").style.display = "none"
+			document.getElementById("selectModeColor3").style.display = "none"
+			document.getElementById("selectModeColor4").style.display = "none"
+		}
+		else if (val == 2) {
+			document.getElementById("selectModeColor1").style.display = "none"
+			document.getElementById("selectModeColor2").style.display = "block"
+			document.getElementById("selectModeColor3").style.display = "none"
+			document.getElementById("selectModeColor4").style.display = "none"
+		}
+		else if (val == 3) {
+			document.getElementById("selectModeColor1").style.display = "none"
+			document.getElementById("selectModeColor2").style.display = "none"
+			document.getElementById("selectModeColor3").style.display = "block"
+			document.getElementById("selectModeColor4").style.display = "none"
+		}
+		else if (val == 4) {
+			document.getElementById("selectModeColor1").style.display = "none"
+			document.getElementById("selectModeColor2").style.display = "none"
+			document.getElementById("selectModeColor3").style.display = "none"
+			document.getElementById("selectModeColor4").style.display = "block"
+		}
+	}
+	
+	
+	//////////////////////////////////////  Multiple cell selection  //////////////////////////////////////
+	var mouseDown = 0;
+	document.body.onmousedown = function() { 
+	  mouseDown = 1;
+	}
+	document.body.onmouseup = function() {
+	  mouseDown = 0;
+	}
+	
+	function setHighlighted(e, cell){
+		if(mouseDown){
+			cell.classList.add("highlighted");
+		}
+	}
+	
+	function setHighlighted1(e, cell){
+		if (e.ctrlKey) {
+			cell.classList.add("highlighted");
+		}
+		else {
+			unhighlight(e, true, false)
+			cell.classList.add("highlighted");
+		}
+	}
+	
+	function unhighlight(e, val, manual){
+		if (manual) {
+			Array.from(document.getElementsByClassName("highlighted")).forEach(
+				function(subcell) {
+					subcell.classList.remove("highlighted");
+				}
+			);
+		}
+		else if (((e.path.includes(document.getElementById('sudoku_table'))) & ((val) || e.ctrlKey)) || (e.path.includes(document.getElementById('numbers_table'))) || (e.path.includes(document.getElementById('selectMode')))) {
+		}
+		else {
+			Array.from(document.getElementsByClassName("highlighted")).forEach(
+				function(subcell) {
+					subcell.classList.remove("highlighted");
+				}
+			);
+		}
+	}
+	document.body.addEventListener('mousedown',function(e) { unhighlight(e, false, false) },false);
+	
+	//////////////////////////////////////  Timer  //////////////////////////////////////
+	var timerr;
+	function startTimer() {
+		var startTime = new Date().getTime();
+		timerr = setInterval(function() { 
+			var now = new Date().getTime(); 
+			var t = now - startTime;
+			var hours = Math.floor((t%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+			var minutes = Math.floor((t % (1000 * 60 * 60)) / (1000 * 60)); 
+			var seconds = Math.floor((t % (1000 * 60)) / 1000); 
+			var formatter = new Intl.NumberFormat('fr-FR', {
+			  minimumIntegerDigits: 2,
+			});
+
+			if (hours < 1){
+				document.getElementById("clock").innerHTML = formatter.format(minutes) + " : " + formatter.format(seconds);
+			}
+			else {
+				document.getElementById("clock").innerHTML = hours + " : " + formatter.format(minutes) + " : " + formatter.format(seconds);
+			}
+		}, 1000); 
+	}
+	
+	function launchTimer() {
+		if (document.getElementById("initValue").checked) {
+			clearInterval(timerr);
+		}
+		else {
+			startTimer();
+		}
+	}
+	
+	//////////////////////////////////////  Check solution  //////////////////////////////////////
+	function checkSolution() {
+		function check_array(arr){
+			arr = [...new Set(arr)];
+			arr.sort();
+			console.log(arr)
+			return JSON.stringify(arr)==JSON.stringify([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+		}
+
+		//Get numbers
+		var final_values = []
+		for (var i = 1; i < 10; i++) {
+			var rows_values = []
+			for (var j = 1; j < 10; j++) {
+				var line = document.getElementById("ligne_" + i)
+				var cell = line.getElementsByClassName("cell_" + [j])[0].children[0]
+				var cell_value = 0
+				for (var k = 0; k < cell.children.length; k++) {
+					if (cell.children[k].classList.contains("mainValue")){
+						cell_value = parseInt(cell.children[k].innerHTML)
+					}
+					else if (cell.children[k].classList.contains("initialValue")){
+						cell_value = parseInt(cell.children[k].innerHTML)
+					}
+				}
+				rows_values.push(cell_value)
+			}
+			final_values.push(rows_values)
+		}
+		
+		//Check values
+		//horizontal
+		var exitSol = document.getElementById("checkSol")
+		exitSol.innerHTML = ""
+		for (var i = 0; i < 9; i++) {
+			var arr = final_values[i]
+			var res = check_array(arr)
+			if (!res) {
+				exitSol.innerHTML += "problem on line " + (i+1) + "\n"
+			}
+		}
+		//vertical
+		for (var i = 0; i < 9; i++) {
+			var arr = []
+			for (var j = 0; j < 9; j++) {
+				arr.push(final_values[j][i]);
+			}
+			var res = check_array(arr)
+			if (!res) {
+				exitSol.innerHTML += "problem on column " + (i+1) + "\n"
+			}
+		}
+		//square
+		for (var i = 0; i < 3; i++) {
+			var arr1 = []
+			var arr2 = []
+			var arr3 = []
+			for (var j = 0; j < 3; j++) {
+				for (var k = 0; k < 3; k++) {
+					arr1.push(final_values[k + 3 * i][j])
+					arr2.push(final_values[k + 3 * i][j + 3])
+					arr3.push(final_values[k + 3 * i][j + 6])
+				}
+			}
+			var res = check_array(arr1)
+			if (!res) {
+				exitSol.innerHTML += "problem on square " + (3 * i + 1) + "\n"
+			}
+			var res = check_array(arr2)
+			if (!res) {
+				exitSol.innerHTML += "problem on square " + (3 * i + 2) + "\n"
+			}
+			var res = check_array(arr3)
+			if (!res) {
+				exitSol.innerHTML += "problem on square " + (3 * i + 3) + "\n"
+			}
+		}
+		if (exitSol.innerHTML == "") {
+			exitSol.innerHTML = "Grille Complete";
+			clearInterval(timerr);
+		}
+	}
+	
+	//////////////////////////////////////  Message on window close  //////////////////////////////////////
+	window.onbeforeunload = function() {
+    	//all you can do is provide a message..
+    	return "if you have unsaved changes and you leave, they will be lost";
+	}
+	
+	/*
+	TODO :
+	
+	*/
+</script>
